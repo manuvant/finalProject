@@ -1,1 +1,128 @@
-TYPESCRIPT
+TYPESCRIPT:
+    El manual:
+
+        El Manual de TypeScript pretende ser un documento completo que explique TypeScript a los programadores cotidianos.
+        Un lector que complete el tutorial debería poder:
+
+        1) Leer y comprender la sintaxis y los patrones de TypeScript más utilizados.
+        2) Explicar los efectos de las opciones importantes del compilador.
+        3) Predecir correctamente el comportamiento del sistema de tipos en la mayoría de los casos.
+
+    Conceptos basicos:
+        Digamos que messagese definió de la siguiente manera.
+        const message = "Hello World!";
+
+        Si quisieramos hacer esto:
+            message.toLowerCase();
+            // Calling 'message'
+            message();
+
+        Si intentamos ejecutar message.toLowerCase(), obtendremos la misma cadena solo en minúsculas.
+        Pero, si intentamos ejecutar message();. Obtendremos "TypeError: message is not a function", porque es una cadena de texto.
+
+        Otro caso:
+        Para las funciones, no existe un mecanismo de ejecución correspondiente para identificar sus tipos. Por ejemplo, considere esta función:
+
+        function fn(x) {
+        return x.flip();
+        };
+
+        Podemos ver que esta función solo funcionará si se le proporciona un objeto con una propiedad "flip" invocable.
+        La única forma en JavaScript puro de saber qué hace "fn" con un valor particular es llamarlo y ver qué sucede.
+        La alternativa es utilizar un sistema de tipos estáticos para hacer predicciones sobre qué código se espera antes de ejecutarse.
+
+    Comprobación de tipo estática:
+        Tener una herramienta que nos ayude a encontrar estos errores antes de que se ejecute nuestro código. Eso es lo que hace un verificador de tipos estático como TypeScript.
+        Los sistemas de tipos estáticos describen las formas y comportamientos de cuáles serán nuestros valores cuando ejecutemos nuestros programas.
+        Por ejemplo:
+            const message = "hello!";
+            message();
+            This expression is not callable.
+            Type 'String' has no call signatures.
+        
+        Segundo ejemplo:
+
+        En TypeScript, el siguiente código produce un error por locationno estar definido:
+            const user = {
+                name: "Daniel",
+                age: 26,
+            };    
+            user.location;
+            Property 'location' does not exist on type '{ name: string; age: number; }'.
+
+        Y TypeScript detecta muchos errores legítimos.
+
+            Tercer ejemplo: errores tipográficos:
+                announcement.toLocaleLowercase();
+                announcement.toLocalLowerCase();
+            Cuando debería ser:
+                announcement.toLocaleLowerCase();
+
+        En funciones no llamadas:
+            Cuarto ejemplo:
+                function flipCoin() {
+                    return Math.random < 0.5;
+
+                    Operator '<' cannot be applied to types '() => number' and 'number'.
+                };
+            
+        Errores de logica:
+            Quinto ejemplo:
+                const value = Math.random() < 0.5 ? "a" : "b";
+                if (value !== "a") {                    
+                // ...
+                } else if (value === "b") {
+                This comparison appears to be unintentional because the types '"a"' and '"b"' have no overlap.
+                }
+
+    Tipos de herramientas:
+        Eso significa que TypeScript también se puede aprovechar para editar código,
+         y el verificador de tipo principal puede proporcionar mensajes de error y
+         completar el código a medida que escribe en el editor.
+        Eso es parte de lo que la gente suele referirse cuando habla de herramientas en TypeScript.
+
+
+    tsc, el compilador de TypeScript => Practica(carpeta HelloWorld).
+
+
+    Emitir con errores
+        El código de verificación de tipos limita los tipos de programas que puede ejecutar, por lo que existe una compensación sobre
+         qué tipo de cosas un verificador de tipos considera aceptables.
+
+
+    Tipos explícitos
+        Editemos el código para indicarle a TypeScript que "person" es un string y que "date" debería ser un Date objeto.
+
+            function greet(person: string, date: Date) {
+                console.log(`Hello ${person}, today is ${date.toDateString()}!`);
+            };
+
+        Para llamar a la funcion correctamente:
+            greet("Maddison", new Date());
+        
+        TypeScript puede incluso simplemente inferir (o "descubrir") los tipos por nosotros incluso si los omitimos.
+        Por ejemplo:
+            let msg = "hello there!";
+             (let msg: string)
+            Aunque no le dijimos a TypeScript que msg tenía el tipo string, pudimos descubrirlo.
+
+    Tipos borrados. => Practica(carpeta HelloWorld).
+
+
+    Rigor
+    TypeScript tiene varios indicadores de rigor de verificación de tipo que se pueden activar o desactivar,
+     y todos nuestros ejemplos se escribirán con todos ellos habilitados a menos que se indique lo contrario. 
+    La strictbandera en la CLI, o "strict": true en a, tsconfig.jsonlos activa todos simultáneamente,
+     pero podemos desactivarlos individualmente. 
+    Los dos más importantes que debes conocer son noImplicitAnyy strictNullChecks.
+
+        noImplicitAny
+            Activar la noImplicitAnybandera generará un error en cualquier variable cuyo tipo se infiera implícitamente como any.
+        strictNullChecks
+            La strictNullChecksbandera hace que el manejo null de and undefinedsea más explícito 
+             y nos evita preocuparnos por si olvidamos manejar nully undefined.
+
+
+
+
+    
